@@ -6,6 +6,7 @@ class Player():
         self.PlayerID = random.randint(100,999)
         self.boardPosition = boardPosition
         self.money = money
+        self.isOnOwnedSpace = False
 
     def getPosition(self):
         return self.boardPosition
@@ -31,7 +32,7 @@ class Animal:
         self.L1 = L1
         self.L2 = L2
         self.L3 = L3
-        self.imageLink = imageLink
+        self.imageLink = imageLink # <-- we don't need this, we won't be rendering images - Adam
         self.setSquare = setSquare
         self.owned = False #? <-- whats wrong here? - Adam
 
