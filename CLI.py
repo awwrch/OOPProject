@@ -8,7 +8,7 @@ class BoardComponents():
 
     @staticmethod # since we don't pass self
     def render_player_card(player):
-        INNER_WIDTH = 36  # inside the box (between ║ ║)
+        INNER_WIDTH = 36
 
         w = INNER_WIDTH
         lines = []
@@ -35,3 +35,25 @@ class BoardComponents():
         lines.append("╚" + "═" * w + "╝")
 
         return "\n".join(lines)
+    
+    @staticmethod
+    def render_board(player):
+
+        return f"""
+[]—[02]—[03]—[04]—[05]
+  |                     |
+[20]                 [06]
+  |                     |
+[19]                 [07]
+  |                     |
+[18]                 [08]
+  |                     |
+[17]                 [09]
+  |                     |
+[16]                 [10]
+  |                     |
+[15]—[14]—[13]—[12]—[11]
+
+        """
+    
+
