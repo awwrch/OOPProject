@@ -47,7 +47,7 @@ class Player():
         self.boardPosition = boardPosition
         self.money = 0
         self.isOnOwnedSpace = False
-        self.animals = [Animal("Lion", 100, 12)] # test value, will be updated with a value for a list later on
+        self.animals = [Animal("Lion", 100, 50, 3)] # test value, will be updated with a value for a list later on
 
     def getPosition(self):
         return self.boardPosition

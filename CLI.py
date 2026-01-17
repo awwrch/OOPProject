@@ -38,22 +38,58 @@ class BoardComponents():
     
     @staticmethod
     def render_board(player):
+      colourRED = "\033[31m"
+      RESET = "\033[0m"
+      boxes = []
 
-        return f"""
-[]—[02]—[03]—[04]—[05]
-  |                     |
-[20]                 [06]
-  |                     |
-[19]                 [07]
-  |                     |
-[18]                 [08]
-  |                     |
-[17]                 [09]
-  |                     |
-[16]                 [10]
-  |                     |
-[15]—[14]—[13]—[12]—[11]
+      for i in range(1, 21):
+          if i == player.boardPosition:
+              boxes.append(f"{colourRED}{i:02d}{RESET}")
+          else:
+              boxes.append(f"{i:02d}")
 
-        """
+      b = boxes
+
+      return f"""\
+  [{b[0]}]—[{b[1]}]—[{b[2]}]—[{b[3]}]—[{b[4]}]
+    |                     |
+  [{b[19]}]                 [{b[5]}]
+    |                     |
+  [{b[18]}]                 [{b[6]}]
+    |                     |
+  [{b[17]}]                 [{b[7]}]
+    |                     |
+  [{b[16]}]                 [{b[8]}]
+    |                     |
+  [{b[15]}]                 [{b[9]}]
+    |                     |
+  [{b[14]}]—[{b[13]}]—[{b[12]}]—[{b[11]}]—[{b[10]}]
+  """
     
+    @staticmethod
+    def prompt(title, text_lines, choices, width=60):
+        top = "╔" + ("═" * width) + "╗"
+        mid = "╠" + ("═" * width) + "╣"
+        bottom = "╚" + ("═" * width) + "╝"
+
+        result = ""
+
+        result += top + "\n"
+        result += "║  " + title.center(width - 4) + "  ║\n"
+        result += mid + "\n"
+
+        for line in text_lines:
+            result += "║  " + line.ljust(width - 4) + "  ║\n"
+
+        result += mid + "\n"
+
+        for i in range(len(choices)):
+            result += "║  [" + str(i + 1) + "] " + choices[i].ljust(width - 8) + "  ║\n"
+
+        result += bottom + "\n"
+
+        return result
+
+
+        
 

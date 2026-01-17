@@ -17,3 +17,4 @@ def checkAnimal(currentPlayer, animal):
     elif animal.owner == currentPlayer:
         if animal.currentLevel < 3:
             choice = input("Do you want to upgrade this animal? (Y/N)")
+
