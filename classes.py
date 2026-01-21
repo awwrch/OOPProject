@@ -19,6 +19,7 @@ class Animal:
         if player.getmoney() >= self.cost:
              player.setMoney(player.getMoney() - self.cost)
              self.currentLevel += 1
+             print("Animal successfully upgraded")
         else:
             print("You don't have enough money")
             
@@ -30,24 +31,27 @@ class Animal:
             print("You don't have enough money")
         else:
             player.setMoney(player.getMoney() - self.cost)
-        
+            self.owned = True
+            self.owner = player.playerName
+
     def getOwned(self):
          if self.owned == True:
             return self.owned
-    def getAmountToCharge(self, charge):
+    def getAmountToCharge(self):
         multipliers = [1, 1.25, 1.5, 1.75]
-        return charge * multipliers[self.currentLevel]
+        return self.charge * multipliers[self.currentLevel]
 
  
 ## Adam is doing Player()
 class Player():
-    def __init__(self, name, boardPosition):
-        self.playerID = random.randint(100,999)
+    def __init__(self, playerID, name):
+        self.playerID = playerID
         self.playerName = name
-        self.boardPosition = boardPosition
-        self.money = 0
+        self.boardPosition = 0
+        self.money = 2000
         self.isOnOwnedSpace = False
-        self.animals = [Animal("Lion", 100, 50, 3)] # test value, will be updated with a value for a list later on
+        self.animals = []
+        self.skipTurn = False
 
     def getPosition(self):
         return self.boardPosition
@@ -59,13 +63,16 @@ class Player():
         return self.money
     
     def setMoney(self, newMoney):
-        self.boardPosition = newMoney
+        self.money = newMoney
+    def toggleSkipTurn(self):
+        self.skipTurn = not self.skipTurn
     
 # Charlotte is doing Card()
 class Card():
-    def __init__(self, sentence, money):
+    def __init__(self, sentence, amount, minus):
         self.sentence = sentence
-        self.money = money
+        self.amount = amount
+        self.minus = minus
     def get_sentence(self):
         return self.get_sentence
     def get_money(self):

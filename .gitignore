@@ -1,6 +1,7 @@
 __pycache__/animals.cpython-313.pyc
 __pycache__/classes.cpython-313.pyc
 *.log
+*.pyc
 test.py
 __pycache__/classes.cpython-313.pyc
 __pycache__/CLI.cpython-313.pyc

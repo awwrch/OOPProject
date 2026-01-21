@@ -9,9 +9,9 @@ ANIMALS = [
     Animal("Bear",500,50,1 ),
     Animal("Squirrel", 1008,110, 2),
     Animal("Panda",902,103,3),
-    Animal("Cat",855,93.4),
-    Animal("Dog",830.85,5),
-    Animal("Elepant",793,70,6),
+    Animal("Cat",855,93, 4),
+    Animal("Dog",830,85,5),
+    Animal("Elephant",793,70,6),
     Animal("Shark",556,55,7),
     Animal("Octopus",678,61,8),
     Animal("Zebra",694,68,9),
@@ -28,6 +28,6 @@ ANIMALS = [
     Animal("Vulture",857,94,20),
     Animal("Jaguar",1370,133,21),
     Animal("Cheetah",1288,129,22),
-    Animal("Iguana",1160.116,23),
+    Animal("Iguana",1160,116,23),
     Animal("Narwhal",794,79,24)
 ]

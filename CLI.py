@@ -36,7 +36,6 @@ class BoardComponents():
 
         return "\n".join(lines)
     
-    @staticmethod
     def render_board(player):
       colourRED = "\033[31m"
       RESET = "\033[0m"
@@ -67,7 +66,7 @@ class BoardComponents():
   """
     
     @staticmethod
-    def prompt(title, text_lines, choices, width=60):
+    def choicePrompt(title, text_lines, choices, width=60):
         top = "╔" + ("═" * width) + "╗"
         mid = "╠" + ("═" * width) + "╣"
         bottom = "╚" + ("═" * width) + "╝"
@@ -84,12 +83,42 @@ class BoardComponents():
         result += mid + "\n"
 
         for i in range(len(choices)):
-            result += "║  [" + str(i + 1) + "] " + choices[i].ljust(width - 8) + "  ║\n"
+            result += "║  [" + str(i+1) + "] " + choices[i].ljust(width - 8) + "  ║\n"
 
         result += bottom + "\n"
 
         return result
+    
+    @staticmethod
+    def generalPrompt(title, text_lines):
+        width = 60
 
+        top = "╔" + ("═" * width) + "╗"
+        mid = "╠" + ("═" * width) + "╣"
+        bottom = "╚" + ("═" * width) + "╝"
 
-        
+        result = ""
 
+        result += top + "\n"
+        result += "║  " + title.center(width - 4) + "  ║\n"
+        result += mid + "\n"
+
+        for line in text_lines:
+            result += "║  " + line.ljust(width - 4) + "  ║\n"
+
+        result += bottom + "\n"
+
+        return result
+    
+    @staticmethod
+    def dice():
+      return r"""
+   _______
+  /\ o o o\
+ /o \ o o o\_______
+<    >------>   o /|
+ \ o/  o   /_____/o|
+  \/______/     |oo|
+        |   o   |o/
+        |_______|/
+        """
