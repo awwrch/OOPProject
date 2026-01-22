@@ -30,40 +30,48 @@ class BoardComponents():
                 text = f"{i}. {animal.name} (Lv {animal.currentLevel})"
                 lines.append(f"║ {text:<{w - 1}}║")
         else:
-            lines.append(f"║ {'None':<{w}}║")
+            lines.append(f"║ {'None':<{w-1}}║")
 
         lines.append("╚" + "═" * w + "╝")
 
         return "\n".join(lines)
     
-    def render_board(player):
-      colourRED = "\033[31m"
-      RESET = "\033[0m"
-      boxes = []
 
-      for i in range(1, 21):
-          if i == player.boardPosition:
-              boxes.append(f"{colourRED}{i:02d}{RESET}")
-          else:
-              boxes.append(f"{i:02d}")
+    @staticmethod
+    def render_board(players):
+        colours = ["\033[31m", "\033[32m", "\033[33m", "\033[34m", "\033[35m", "\033[36m"]
+        RESET = "\033[0m"
+        BOARD_SIZE = 26
 
-      b = boxes
+        square_map = {i: [] for i in range(1, BOARD_SIZE + 1)}
 
-      return f"""\
-  [{b[0]}]—[{b[1]}]—[{b[2]}]—[{b[3]}]—[{b[4]}]
-    |                     |
-  [{b[19]}]                 [{b[5]}]
-    |                     |
-  [{b[18]}]                 [{b[6]}]
-    |                     |
-  [{b[17]}]                 [{b[7]}]
-    |                     |
-  [{b[16]}]                 [{b[8]}]
-    |                     |
-  [{b[15]}]                 [{b[9]}]
-    |                     |
-  [{b[14]}]—[{b[13]}]—[{b[12]}]—[{b[11]}]—[{b[10]}]
-  """
+        for idx, player in enumerate(players):
+            pos = player.boardPosition
+            if pos <= 0:
+                pos = 1
+            elif pos > BOARD_SIZE:
+                pos = ((pos - 1) % BOARD_SIZE) + 1
+            square_map[pos].append(idx)
+
+        def cell(n):
+            if square_map[n]:
+                s = ""
+                for p in square_map[n]:
+                    s += f"{colours[p % len(colours)]}{n:02d}{RESET}"
+                return s
+            return f"{n:02d}"
+
+        return f"""
+    [{cell(1)}]—[{cell(2)}]—[{cell(3)}]—[{cell(4)}]—[{cell(5)}]—[{cell(6)}]—[{cell(7)}]
+    |                             |
+    [{cell(26)}]                           [{cell(8)}]
+    |        [{cell(12)}]—[{cell(13)}]           |
+    [{cell(25)}]        |     |           [{cell(9)}]
+    |        [{cell(14)}]—[{cell(15)}]           |
+    [{cell(24)}]                           [{cell(10)}]
+    |                             |
+    [{cell(23)}]—[{cell(22)}]—[{cell(21)}]—[{cell(20)}]—[{cell(19)}]—[{cell(18)}]—[{cell(17)}]
+    """
     
     @staticmethod
     def choicePrompt(title, text_lines, choices, width=60):

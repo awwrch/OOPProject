@@ -4,13 +4,6 @@ from animals import ANIMALS
 from cards import CARDS
 import random, os
 
-# this is where a bunch of the terminal user interface logic will go
-#testPlayer = Player("Adam", 12)
-
-#print(BoardComponents.render_player_card(testPlayer))
-
-#def createNewPlayer(name):
-
 deckPointer = 0  
 
 def clear():
@@ -52,8 +45,8 @@ def checkAnimal(player):
         else:
             actualOwner = fetchPlayerByName(currentAnimal.owner)            
             player.setMoney(player.getMoney() - currentAnimal.getAmountToCharge())
-            actualOwner.setMoney(actualOwner.getMoney + currentAnimal.getAmountToCharge)
-            print(f"You have been charged {currentAnimal.getAmountToCharge} coins")
+            actualOwner.setMoney(actualOwner.getMoney() + currentAnimal.getAmountToCharge())
+            print(f"You have been charged {currentAnimal.getAmountToCharge()} coins")
 
 def pickDeck(player):
     global deckPointer
@@ -130,6 +123,7 @@ while gameOn:
         for player in playerList:
             if player.skipTurn == False:
                 clearAndPlayerCard(player)
+                print(BoardComponents.render_board(playerList))
                 input("Press any key to roll...")
                 clearAndPlayerCard(player)
                 move(player)
@@ -147,5 +141,5 @@ while gameOn:
     if gameOn:
         gameOn = False
         winningPlayer = findWinner(playerList)
-        
+
 print(f"Game over. {winningPlayer.playerName} has won.")
