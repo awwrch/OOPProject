@@ -47,7 +47,7 @@ class Player():
     def __init__(self, playerID, name):
         self.playerID = playerID
         self.playerName = name
-        self.boardPosition = 0
+        self.boardPosition = 1
         self.money = 2000
         self.isOnOwnedSpace = False
         self.animals = []

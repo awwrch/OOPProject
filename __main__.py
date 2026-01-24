@@ -1,4 +1,4 @@
-from classes import Animal, Card, Player
+from classes import Player
 from CLI import BoardComponents
 from animals import ANIMALS
 from cards import CARDS
@@ -25,7 +25,7 @@ def findWinner(playerList):
 def checkAnimal(player):
     currentAnimal = next((animal for animal in ANIMALS if animal.setSquare == player.getPosition()), None)
     if currentAnimal.owned == False:
-        print(BoardComponents.choicePrompt("Animal Purchase", [f"Do you want to buy {currentAnimal.name}?"], ["Buy", "Cancel"]))
+        print(BoardComponents.choicePrompt("Animal Purchase", [f"Do you want to buy {currentAnimal.name}?"], ["Buy", "Cancel"], currentAnimal))
         choice = int(input(f"Do you want to buy {currentAnimal.name}? ")) #ask if want buy(y/n)
         if choice == 1:
             currentAnimal.setOwned(player) #deducting and checking money is already within the function
@@ -53,7 +53,10 @@ def pickDeck(player):
     deck = CARDS.copy()
     current_card = deck[deckPointer]
     print(current_card.sentence)
-    player.money += current_card.amount
+    if current_card.minus:   
+        player.money -= current_card.amount
+    else:
+        player.money += current_card.amount
     deckPointer += 1
 
 def move(player):
@@ -65,6 +68,8 @@ def move(player):
     print(f"You move {roll1 + roll2} spaces")
     input("Press any key to continue...")
     if roll1 == roll2:
+        print("You get a card!")
+        clearAndPlayerCard(player)
         pickDeck(player)
     rollSum = roll1 + roll2
     player.setPosition(

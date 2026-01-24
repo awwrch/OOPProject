@@ -42,39 +42,40 @@ class BoardComponents():
         colours = ["\033[31m", "\033[32m", "\033[33m", "\033[34m", "\033[35m", "\033[36m"]
         RESET = "\033[0m"
         BOARD_SIZE = 26
+        TOTAL_SPACES = BOARD_SIZE + 1   # includes 0
 
-        square_map = {i: [] for i in range(1, BOARD_SIZE + 1)}
+        square_map = {i: [] for i in range(TOTAL_SPACES)}
 
         for idx, player in enumerate(players):
-            pos = player.boardPosition
-            if pos <= 0:
-                pos = 1
-            elif pos > BOARD_SIZE:
-                pos = ((pos - 1) % BOARD_SIZE) + 1
+            pos = player.boardPosition % TOTAL_SPACES
             square_map[pos].append(idx)
 
-        def cell(n):
-            if square_map[n]:
-                s = ""
-                for p in square_map[n]:
-                    s += f"{colours[p % len(colours)]}{n:02d}{RESET}"
-                return s
-            return f"{n:02d}"
+        def tile(n):
+            # no players → normal number
+            if not square_map[n]:
+                return f"{n:02d}"
+
+            # one or more players → colour-stack
+            out = ""
+            for p in square_map[n]:
+                out += f"{colours[p % len(colours)]}{n:02d}{RESET}"
+            return out
 
         return f"""
-    [{cell(1)}]—[{cell(2)}]—[{cell(3)}]—[{cell(4)}]—[{cell(5)}]—[{cell(6)}]—[{cell(7)}]
-    |                             |
-    [{cell(26)}]                           [{cell(8)}]
-    |        [{cell(12)}]—[{cell(13)}]           |
-    [{cell(25)}]        |     |           [{cell(9)}]
-    |        [{cell(14)}]—[{cell(15)}]           |
-    [{cell(24)}]                           [{cell(10)}]
-    |                             |
-    [{cell(23)}]—[{cell(22)}]—[{cell(21)}]—[{cell(20)}]—[{cell(19)}]—[{cell(18)}]—[{cell(17)}]
+    {tile(1)}──{tile(2)}──{tile(3)}──{tile(4)}──{tile(5)}──{tile(6)}──{tile(7)}
+    │                        │
+    {tile(26)}                      {tile(8)}
+    │       {tile(13)}──{tile(14)}──{tile(15)}       │
+    {tile(25)}       │       │      {tile(9)}
+    │       {tile(12)}──{tile(11)}──{tile(16)}       │
+    {tile(24)}                      {tile(10)}
+    │                        │
+    {tile(23)}──{tile(22)}──{tile(21)}──{tile(20)}──{tile(19)}──{tile(18)}──{tile(17)}
     """
+
     
     @staticmethod
-    def choicePrompt(title, text_lines, choices, width=60):
+    def choicePrompt(title, text_lines, choices, animal=None, width=60):
         top = "╔" + ("═" * width) + "╗"
         mid = "╠" + ("═" * width) + "╣"
         bottom = "╚" + ("═" * width) + "╝"
@@ -88,14 +89,19 @@ class BoardComponents():
         for line in text_lines:
             result += "║  " + line.ljust(width - 4) + "  ║\n"
 
+        if animal is not None:
+            result += mid + "\n"
+            result += "║  " + f"Price: {animal.cost} coins".ljust(width - 4) + "  ║\n"
+            result += "║  " + f"Charge: {animal.charge} coins".ljust(width - 4) + "  ║\n"
+
         result += mid + "\n"
 
         for i in range(len(choices)):
-            result += "║  [" + str(i+1) + "] " + choices[i].ljust(width - 8) + "  ║\n"
+            result += "║  [" + str(i + 1) + "] " + choices[i].ljust(width - 8) + "  ║\n"
 
         result += bottom + "\n"
-
         return result
+
     
     @staticmethod
     def generalPrompt(title, text_lines):
